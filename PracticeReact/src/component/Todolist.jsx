@@ -28,7 +28,22 @@ const Todolist = () => {
        onClick={addTodo}
     >Add</button>
     </div>
-    {todos.length === 0}
+    {todos.length === 0
+        ? <p style={{ color: "#aaa" }}>No todos yet</p>
+        : todos.map(todo => (
+          <div key={todo.id} style={{
+            display: "flex", justifyContent: "space-between",
+            alignItems: "center", padding: "10px",
+            borderBottom: "1px solid #eee"
+          }}>
+            <p style={{ margin: 0 }}>{todo.text}</p>
+            <button onClick={() => deleteTodo(todo.id)}
+              style={{ color: "red", border: "none", background: "none", cursor: "pointer", fontSize: "16px" }}>
+              ✕
+            </button>
+          </div>
+        ))
+      }
 
     </div>
   )
