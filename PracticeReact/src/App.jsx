@@ -7,6 +7,20 @@ function App( ) {
   // const [count, setCount] = useState(0)
   const [users,setUsers] = useState([])
   const [loading,setLoading] = usestate(true)
+  useEffect(() => {
+    async function loadUsers() {
+      try {
+        const res = await fetch("https://jsonplaceholder.typicode.com/users")
+        const data = await res.json()
+        setUsers(data)
+        setLoading(false)
+      } catch (error) {
+        console.log("Failed to load", error)
+        setLoading(false)
+      }
+    }
+    loadUsers()
+  }, [])
   return (
     <>
     {/* // this is for cards */}
@@ -33,14 +47,7 @@ function App( ) {
     {/* user directories */}
     <div>
       <h1>User Directories</h1>
-      useEffect(() => {
-      fetch("https://jsonplaceholder.typicode.com/users")
-      .then(res => res.json)
-      .then(data =>{
-        setUsers(data)
-        setLoading(false)
-      })
-      }, [])
+{loading?<p>Loading....</p>:<p>{users.length}user found</p>}
     </div>
 
     </>
