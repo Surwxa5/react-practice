@@ -6,7 +6,8 @@ import UserCard from './component/UserCard'
 function App( ) {
   // const [count, setCount] = useState(0)
   const [users,setUsers] = useState([])
-  const [loading,setLoading] = usestate(true)
+  const [loading,setLoading] = useState(true)
+  const [search, setSearch] = useState("")
   useEffect(() => {
     async function loadUsers() {
       try {
@@ -21,6 +22,10 @@ function App( ) {
     }
     loadUsers()
   }, [])
+
+  const filtered = users.filter(user =>
+    user.name.toLowerCase().includes(search.toLowerCase())
+  )
   return (
     <>
     {/* // this is for cards */}
@@ -45,9 +50,23 @@ function App( ) {
 
 
     {/* user directories */}
-    <div>
+    <div style={{maxWidth:"900px",margin:"0 auto", padding:"20px"}}>
       <h1>User Directories</h1>
-{loading?<p>Loading....</p>:<p>{users.length}user found</p>}
+
+      <input type='text'value={search} onChange={(e)=>setSearch(e.target.value)} placeholder='Search by name...'/>
+{loading?<p>Loading....</p>:<p>{filtered.length} user found</p>}
+
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(250px, 1fr))",gap:"16px"}}>
+
+        {filtered.map(user=>(
+          <UserCard key={user.id}
+          name={user.name}
+          email={user.email}
+          city={user.address.city}
+          company={user.company.name}
+          />
+        ))}
+      </div>
     </div>
 
     </>
