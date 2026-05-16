@@ -8,6 +8,8 @@ function App( ) {
   const [users,setUsers] = useState([])
   const [loading,setLoading] = useState(true)
   const [search, setSearch] = useState("")
+  const [sorted,setSorted] = useState(false)
+  const [originalUser,setOriginalUser] = useState([])
   useEffect(() => {
     async function loadUsers() {
       try {
@@ -26,6 +28,7 @@ function App( ) {
   const filtered = users.filter(user =>
     user.name.toLowerCase().includes(search.toLowerCase())
   )
+  // const sort = setUsers([...users].sort((a,b)=>a.name.localeCompare(b.name)))
   return (
     <>
     {/* // this is for cards */}
@@ -55,6 +58,18 @@ function App( ) {
 
       <input type='text'value={search} onChange={(e)=>setSearch(e.target.value)} placeholder='Search by name...'/>
 {loading?<p>Loading....</p>:<p>{filtered.length} user found</p>}
+
+      <button 
+     onClick={()=>{
+      if(sorted){
+        setOriginalUser(users)
+      }
+      else{
+        setUsers([...users].sort((a,b)=>a.name.localeCompare(b.name)))
+      }
+      setSorted(!sorted)
+     }}
+      >{sorted ? "Original Order" : "Sort A-Z"}</button>
 
       <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(250px, 1fr))",gap:"16px"}}>
 
