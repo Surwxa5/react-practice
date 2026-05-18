@@ -16,6 +16,7 @@ function App( ) {
         const res = await fetch("https://jsonplaceholder.typicode.com/users")
         const data = await res.json()
         setUsers(data)
+        setOriginalUser(data)
         setLoading(false)
       } catch (error) {
         console.log("Failed to load", error)
@@ -62,7 +63,7 @@ function App( ) {
       <button 
      onClick={()=>{
       if(sorted){
-        setOriginalUser(users)
+        setUsers(originalUser)
       }
       else{
         setUsers([...users].sort((a,b)=>a.name.localeCompare(b.name)))
